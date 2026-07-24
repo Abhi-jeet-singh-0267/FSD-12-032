@@ -50,6 +50,8 @@ orderSystem.placeOrder({
   items: [
     { name: "Wireless Mouse", qty: 1 },
     { name: "Mechanical Keyboard", qty: 1 },
+    { name: "Wireless headset", qty: 1 },
+    { name: "HP Laptop", qty: 1 },
   ],
   total: 2499,
 });
