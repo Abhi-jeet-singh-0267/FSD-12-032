@@ -15,3 +15,8 @@ function digitToWord( digit) {
         }
     }
     console.log(digitToWord(7))
+    console.log(digitToWord(9))
+    console.log(digitToWord(3))
+
+    // frontend = React , Flask , Vew.js , Angular ,Bootstrap , Tailwin.
+    // Backend = Node.js , Springboot , FastAPI, Django , PHP.
