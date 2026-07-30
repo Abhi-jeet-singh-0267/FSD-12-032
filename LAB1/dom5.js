@@ -1,48 +1,44 @@
-// import { eventName } from "cluster";
-// import { timeStamp } from "console";
-// import { EventEmitter } from "events";
-
-// class DomClass extends EventEmitter {
-//   addEventListener(eventName, callback) {
-//     this.on(eventName, callback);
-//   }
-//   removeEventListener(eventName, callback) {
-//     this.off(eventName, callback);
-//   }
-//   dispatchEvent(eventName, eventData = {}) {
-//     const event = {
-//       type: eventName,
-//       timeSpam: new Data(),
-//       ...eventData,
-//     };
-//     this.emit(eventName, event);
-//   }
-
-// }
-
 import { EventEmitter } from "events";
+
 class DomClass extends EventEmitter {
   addEventListener(eventName, callback) {
     this.on(eventName, callback);
   }
+
   removeEventListener(eventName, callback) {
     this.off(eventName, callback);
   }
+
   dispatchEvent(eventName, eventData = {}) {
     const event = {
       type: eventName,
-      timeStamp: new Date(),
+      timestamp: new Date(),
       ...eventData,
     };
+
     this.emit(eventName, event);
   }
 }
-const dom = new DomClass();
-dom.addEventListener("click", (event) => {
-  console.log("Clicked!");
-  console.log(event);
+
+const button = new DomClass();
+
+const handleClick = (event) => {
+  console.log("Button Clicked!");
+  console.log(`Type: ${event.type}`);
+  console.log(`Target: ${event.target}`);
+  console.log(`Timestamp: ${event.timestamp}`);
+};
+
+button.addEventListener("click", handleClick);
+
+button.dispatchEvent("click", {
+  target: "submitBtn",
 });
-dom.dispatchEvent("click", {
-  x: 100,
-  y: 200,
+
+button.removeEventListener("click", handleClick);
+
+console.log("Listener Removed!");
+
+button.dispatchEvent("click", {
+  target: "submitBtn",
 });
