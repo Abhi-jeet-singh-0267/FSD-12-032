@@ -8,8 +8,9 @@ const f3= () => {
   console.log("f3");
 };
 function main(){
-    console.log();
-    f1();
+    console.log("main");
+    // setTimeout(f1,1000);
+    setInterval(f1,1000);
     f2();
     f3();
     console.log("end");
