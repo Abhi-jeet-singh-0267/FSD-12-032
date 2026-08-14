@@ -1,34 +1,85 @@
-import readline from 'readline/promises';
-import{stdin, stdout} from 'process';
+import readline from "readline/promises";
+import { stdin, stdout } from "process";
+import { readFile, writeFile } from "fs/promises";
 
-const main = async()=>{
-    let choice;
-    const cin = readline.createInterface({input: stdin, output: stdout});
-      do{
-    console.log("Welcome to FlipKart🐱‍🏍");
+const FILE = "product.json";
+const getCart = async () => {
+  const data = await readFile(FILE, "utf-8");
+  return JSON.parse(data);
+};
+const saveCart = async (myCart) => {
+  await writeFile(FILE, JSON.stringify(myCart, null, 2));
+};
+const addToCart = async (product) => {
+  const myCart = await getCart();
+
+  const isFound = myCart.find((item) => item.id === product.id);
+
+  if (isFound) {
+    isFound.qty += product.qty;
+  } else {
+    myCart.push(product);
+  }
+
+  await saveCart(myCart);
+
+  console.log(`Product added/updated with id ${product.id} into cart`);
+};
+
+const main = async () => {
+  let choice;
+
+  const cin = readline.createInterface({
+    input: stdin,
+    output: stdout,
+  });
+
+  do {
+    console.log("\nWelcome to FlipKart 🐱‍🏍");
     console.log("1.............Show cart");
     console.log("2.............Add product");
-    console.log("3..............Remove product");
-    console.log("4...............Update quantity");
-    console.log("5..............Exit");
-    choice= await cin.question("Enter your choice:");
-    switch (choice) {
+    console.log("3.............Remove product");
+    console.log("4.............Update quantity");
+    console.log("5.............Exit");
+
+    choice = await cin.question("Enter your choice: ");
+
+    switch (Number(choice)) {
       case 1:
         console.log("Show product");
+        break;
+
       case 2:
-        console.log("product added");
+        let data =await cin.question("Enter id,name,price,qty:");
+        const data=await cin.question("Enter id,name,price,qty:");
+            const [id,name,price,qty]=data.split(',').map((item)=>item.trim());
+            const product ={
+                id:Number(id),
+                name,
+                price:Number(price),
+                qty:Number(qty),
+            };
+            await addToCart(product);
+        break;
+
       case 3:
-        console.log("remove product ");
+        console.log("Remove product");
+        break;
+
       case 4:
-        console.log("update product quantity");
+        console.log("Update product quantity");
+        break;
+
       case 5:
         console.log("See you later");
         break;
-      default:  
-        console.log("Invalid choice! Try again🤬");
-    }
 
-      }while(choice !=5);
-    cin.close();
+      default:
+        console.log("Invalid choice! Try again 🤬");
+    }
+  } while (Number(choice) !== 5);
+
+  cin.close();
 };
+
 main();
